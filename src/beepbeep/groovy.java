@@ -20,10 +20,10 @@ package beepbeep;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import beepbeep.SpliceSource.SpliceByteSource;
-import beepbeep.SpliceSource.SpliceLineSource;
-import beepbeep.SpliceSource.SpliceTokenSource;
-import beepbeep.SpliceSource.SpliceTupleSource;
+import ca.uqac.lif.cep.io.SpliceSource.SpliceByteSource;
+import ca.uqac.lif.cep.io.SpliceSource.SpliceLineSource;
+import ca.uqac.lif.cep.io.SpliceSource.SpliceTokenSource;
+import ca.uqac.lif.cep.tuples.SpliceTupleSource;
 
 /**
  * A utility class defining static methods to instantiate processors and
@@ -72,10 +72,21 @@ public class groovy
    * @param out_arity The output arity of the group
    * @return The processor
    */
-  public static ca.uqac.lif.cep.GroupProcessor GroupProcessor(int in_arity, int out_arity)
+  public static class GroupProcessor extends ca.uqac.lif.cep.GroupProcessor
   {
-    return new ca.uqac.lif.cep.GroupProcessor(in_arity, out_arity);
+    public GroupProcessor(int in_arity, int out_arity)
+    {
+      super(in_arity, out_arity);
+    }
   }
+  
+  public static final int BOTTOM = ca.uqac.lif.cep.Connector.BOTTOM;
+  
+  public static final int INPUT = ca.uqac.lif.cep.Connector.INPUT;
+  
+  public static final int OUTPUT = ca.uqac.lif.cep.Connector.OUTPUT;
+  
+  public static final int TOP = ca.uqac.lif.cep.Connector.TOP;
   
   /* ca.uqac.lif.cep.functions */
   
@@ -88,6 +99,16 @@ public class groovy
   public static ca.uqac.lif.cep.functions.ApplyFunction ApplyFunction(ca.uqac.lif.cep.functions.Function f)
   {
     return new ca.uqac.lif.cep.functions.ApplyFunction(f);
+  }
+  
+  
+  /**
+   * A class extending {@ca.uqac.lif.cep.functions.StreamVariable} to provide
+   * direct access to its static fields and methods.
+   */
+  public static class StreamVariable extends ca.uqac.lif.cep.functions.StreamVariable
+  {
+    // Nothing
   }
   
   /**
@@ -110,6 +131,17 @@ public class groovy
   public static ca.uqac.lif.cep.functions.Cumulate Cumulate(ca.uqac.lif.cep.functions.BinaryFunction<?,?,?> f)
   {
     return new ca.uqac.lif.cep.functions.Cumulate(f);
+  }
+  
+  /**
+   * Creates a new instance of the {@link ca.uqac.lif.cep.functions.FunctionTree}
+   * function.
+   * @param arguments The arguments to create the function tree
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.functions.FunctionTree FunctionTree(ca.uqac.lif.cep.functions.Function ... arguments)
+  {
+    return new ca.uqac.lif.cep.functions.FunctionTree(arguments);
   }
   
   /**
@@ -229,6 +261,28 @@ public class groovy
     return new ca.uqac.lif.cep.io.Print.Println(ps);
   }
   
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.io.SpliceSource.SpliceByteSource}
+   * processor.
+   * @param ps The file names
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.io.SpliceSource.SpliceByteSource SpliceByteSource(String ... args)
+  {
+    return new ca.uqac.lif.cep.io.SpliceSource.SpliceByteSource(args);
+  }
+  
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.io.SpliceSource.SpliceLineSource}
+   * processor.
+   * @param ps The file names
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.io.SpliceSource.SpliceLineSource SpliceLineSource(String ... args)
+  {
+    return new ca.uqac.lif.cep.io.SpliceSource.SpliceLineSource(args);
+  }
+  
   /* ca.uqac.lif.cep.tmf */
   
   /**
@@ -240,6 +294,27 @@ public class groovy
   public static ca.uqac.lif.cep.tmf.CountDecimate CountDecimate(int interval)
   {
     return new ca.uqac.lif.cep.tmf.CountDecimate(interval);
+  }
+  
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.tmf.Fork}
+   * processor.
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.tmf.Fork Fork()
+  {
+    return new ca.uqac.lif.cep.tmf.Fork();
+  }
+  
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.tmf.Fork}
+   * processor.
+   * @param out_arity The output arity of the work
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.tmf.Fork Fork(int out_arity)
+  {
+    return new ca.uqac.lif.cep.tmf.Fork(out_arity);
   }
   
   /**
@@ -271,6 +346,18 @@ public class groovy
   public static ca.uqac.lif.cep.tmf.Pump Pump(int interval)
   {
     return Pump(interval);
+  }
+  
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.tmf.Slice}
+   * processor.
+   * @param f The slicing function
+   * @param p The processor to run on each slice
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.tmf.Slice Slice(ca.uqac.lif.cep.functions.Function f, ca.uqac.lif.cep.Processor p)
+  {
+    return new ca.uqac.lif.cep.tmf.Slice(f, p);
   }
   
   /**
@@ -359,8 +446,60 @@ public class groovy
   }
   
   /**
-   * A class extending {@ca.uqac.lif.cep.util.Maps} to provide direct access
-   * to its static fields and methods.
+   * A class extending {@link ca.uqac.lif.cep.util.Lists} to provide direct
+   * access to its static fields and methods.
+   */
+  public static class Lists extends ca.uqac.lif.cep.util.Lists
+  {
+    // Nothing
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Lists.Pack}
+   * processor.
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.util.Lists.Pack Pack()
+  {
+    return new ca.uqac.lif.cep.util.Lists.Pack();
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Lists.Sort}
+   * function.
+   * @return The function
+   */
+  @SuppressWarnings("rawtypes")
+  public static ca.uqac.lif.cep.util.Lists.Sort Sort()
+  {
+    return new ca.uqac.lif.cep.util.Lists.Sort();
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Lists.SortOn}
+   * function.
+   * @param f The function used to compare elements
+   * @return The function
+   */
+  @SuppressWarnings("rawtypes")
+  public static ca.uqac.lif.cep.util.Lists.SortOn SortOn(ca.uqac.lif.cep.functions.Function f)
+  {
+    return new ca.uqac.lif.cep.util.Lists.SortOn(f);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Lists.Unpack}
+   * processor.
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.util.Lists.Unpack Unpack()
+  {
+    return new ca.uqac.lif.cep.util.Lists.Unpack();
+  }
+  
+  /**
+   * A class extending {@link ca.uqac.lif.cep.util.Maps} to provide direct
+   * access to its static fields and methods.
    */
   public static class Maps extends ca.uqac.lif.cep.util.Maps
   {
@@ -368,8 +507,8 @@ public class groovy
   }
   
   /**
-   * A class extending {@ca.uqac.lif.cep.util.Numbers} to provide direct access
-   * to its static fields and methods.
+   * A class extending {@link ca.uqac.lif.cep.util.Numbers} to provide direct
+   * access to its static fields and methods.
    */
   public static class Numbers extends ca.uqac.lif.cep.util.Numbers
   {
@@ -377,8 +516,8 @@ public class groovy
   }
   
   /**
-   * A class extending {@ca.uqac.lif.cep.util.Sets} to provide direct access
-   * to its static fields and methods.
+   * A class extending {@link ca.uqac.lif.cep.util.Sets} to provide direct
+   * access to its static fields and methods.
    */
   public static class Sets extends ca.uqac.lif.cep.util.Sets
   {
@@ -386,12 +525,93 @@ public class groovy
   }
   
   /**
-   * A class extending {@ca.uqac.lif.cep.util.Strings} to provide direct access
-   * to its static fields and methods.
+   * A class extending {@link ca.uqac.lif.cep.util.Strings} to provide direct
+   * access to its static fields and methods.
    */
   public static class Strings extends ca.uqac.lif.cep.util.Strings
   {
     // Nothing
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.FindRegex}
+   * function.
+   * @param regex The regular expression to look for
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.FindRegex FindRegex(String regex)
+  {
+    return new ca.uqac.lif.cep.util.Strings.FindRegex(regex);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.FindRegexOnce}
+   * function.
+   * @param regex The regular expression to look for
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.FindRegexOnce FindRegexOnce(String regex)
+  {
+    return new ca.uqac.lif.cep.util.Strings.FindRegexOnce(regex);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.ReplaceAll}
+   * function.
+   * @param from An array containing all the patterns to match
+   * @param to An array containing all the corresponding replacement patterns
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.ReplaceAll ReplaceAll(String[] from, String[] to)
+  {
+    return new ca.uqac.lif.cep.util.Strings.ReplaceAll(from, to);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.ReplaceAll}
+   * function.
+   * @param from An array containing all the patterns to match
+   * @param to An array containing all the corresponding replacement patterns
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.ReplaceAll ReplaceAll(java.util.List<String> from, java.util.List<String> to)
+  {
+    return new ca.uqac.lif.cep.util.Strings.ReplaceAll(from, to);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.ReplaceAll}
+   * function.
+   * @param from The patterns to match
+   * @param to The corresponding replacement pattern
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.ReplaceAll ReplaceAll(String from, String to)
+  {
+    return new ca.uqac.lif.cep.util.Strings.ReplaceAll(from, to);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.SplitString}
+   * function.
+   * @param separator The separator to split the string
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.SplitString SplitString(String separator)
+  {
+    return new ca.uqac.lif.cep.util.Strings.SplitString(separator);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.util.Strings.SubString}
+   * function.
+   * @param start The start index
+   * @param end The end index
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.util.Strings.Substring Substring(int start, int end)
+  {
+    return new ca.uqac.lif.cep.util.Strings.Substring(start, end);
   }
   
   /* ca.uqac.lif.cep.json */
@@ -475,6 +695,17 @@ public class groovy
   }
   
   /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.mtnp.UpdateTableArray}
+   * processor.
+   * @param prefix The number of events to trim
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.mtnp.UpdateTableArray UpdateTableArray(java.util.List<String> column_names)
+  {
+    return new ca.uqac.lif.cep.mtnp.UpdateTableArray(column_names);
+  }
+  
+  /**
    * Creates an new instance of the {@link ca.uqac.lif.cep.mtnp.UpdateTableMap}
    * processor.
    * @param prefix The number of events to trim
@@ -486,12 +717,34 @@ public class groovy
   }
   
   /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.mtnp.UpdateTableMap}
+   * processor.
+   * @param prefix The number of events to trim
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.mtnp.UpdateTableMap UpdateTableMap(java.util.List<String> column_names)
+  {
+    return new ca.uqac.lif.cep.mtnp.UpdateTableMap(column_names);
+  }
+  
+  /**
    * Creates an new instance of the {@link ca.uqac.lif.cep.mtnp.UpdateTableStream}
    * processor.
    * @param prefix The number of events to trim
    * @return The processor
    */
   public static ca.uqac.lif.cep.mtnp.UpdateTableStream UpdateTableStream(String ... column_names)
+  {
+    return new ca.uqac.lif.cep.mtnp.UpdateTableStream(column_names);
+  }
+  
+  /**
+   * Creates an new instance of the {@link ca.uqac.lif.cep.mtnp.UpdateTableStream}
+   * processor.
+   * @param prefix The number of events to trim
+   * @return The processor
+   */
+  public static ca.uqac.lif.cep.mtnp.UpdateTableStream UpdateTableStream(java.util.List<String> column_names)
   {
     return new ca.uqac.lif.cep.mtnp.UpdateTableStream(column_names);
   }
@@ -516,6 +769,28 @@ public class groovy
   public static ca.uqac.lif.cep.tuples.FetchAttribute FetchAttribute(String name)
   {
     return new ca.uqac.lif.cep.tuples.FetchAttribute(name);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.tuples.MergeScalars}
+   * function.
+   * @param names The name of the keys in the tuple
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.tuples.MergeScalars MergeScalars(String ... names)
+  {
+    return new ca.uqac.lif.cep.tuples.MergeScalars(names);
+  }
+  
+  /**
+   * Produces an instance of the {@link ca.uqac.lif.cep.tuples.MergeScalars}
+   * function.
+   * @param names The name of the keys in the tuple
+   * @return The function
+   */
+  public static ca.uqac.lif.cep.tuples.MergeScalars MergeScalars(java.util.List<String> names)
+  {
+    return new ca.uqac.lif.cep.tuples.MergeScalars(names);
   }
   
   /* I/O from the scripts */
