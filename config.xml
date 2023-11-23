@@ -25,7 +25,7 @@
   <!-- The project's name -->
   <name>BeepBeep Groovy Bridge</name>
 
-  <version>1.0</version>
+  <version>1.1</version>
 
   <jar>
     <filename>beepbeep-groovy</filename>
@@ -68,7 +68,7 @@
     </dependency>
     <dependency>
       <name>BeepBeep Palettes</name>
-      <classname>ca.uqac.lif.cep.json.JsonPath</classname>
+      <classname>ca.uqac.lif.cep.json.ParseJson</classname>
       <files>
         <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.7/beepbeep-3-palettes-0.7.jar</jar>
       </files>
