@@ -72,9 +72,14 @@ public class groovy
    * @param out_arity The output arity of the group
    * @return The processor
    */
-  public static class GroupProcessor extends ca.uqac.lif.cep.GroupProcessor
+  public static class Group extends ca.uqac.lif.cep.GroupProcessor
   {
-    public GroupProcessor(int in_arity, int out_arity)
+  	public Group()
+  	{
+  		super();
+  	}
+  	
+    public Group(int in_arity, int out_arity)
     {
       super(in_arity, out_arity);
     }
