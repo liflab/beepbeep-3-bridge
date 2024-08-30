@@ -25,7 +25,7 @@
   <!-- The project's name -->
   <name>BeepBeep Groovy Bridge</name>
 
-  <version>1.1</version>
+  <version>0.11.3</version>
 
   <jar>
     <filename>beepbeep-groovy</filename>
@@ -38,13 +38,13 @@
   
   <!-- The project's author. Currently this only
   shows up in the footer of the Javadoc documentation. -->
-  <!-- <author>Marty McFly</author> -->
+  <author>Sylvain Hallé</author>
   
   <!-- The project's main class -->
   <!-- <mainclass>my.package.MainClass</mainclass> -->
   
   <!-- The target JDK for which we are compiling -->
-  <!-- <targetjdk>8</targetjdk> -->
+  <targetjdk>8</targetjdk>
   
   <test>
     <!-- The filename pattern to recognize test files -->
@@ -62,7 +62,7 @@
       <name>BeepBeep Core</name>
       <classname>ca.uqac.lif.cep.Processor</classname>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3/releases/download/v0.11.1/beepbeep-3-0.11.1.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3/releases/download/v0.11.2/beepbeep-3-0.11.2.jar</jar>
       </files>
       <bundle>false</bundle>
     </dependency>
@@ -70,7 +70,7 @@
       <name>BeepBeep Palettes</name>
       <classname>ca.uqac.lif.cep.json.ParseJson</classname>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.7/beepbeep-3-palettes-0.7.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.8/beepbeep-palettes-0.8.jar</jar>
       </files>
       <bundle>false</bundle>
     </dependency>
