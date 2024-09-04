@@ -62,7 +62,7 @@
       <name>BeepBeep Core</name>
       <classname>ca.uqac.lif.cep.Processor</classname>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3/releases/download/v0.11.2/beepbeep-3-0.11.2.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3/releases/download/v0.11.3/beepbeep-3-0.11.3.jar</jar>
       </files>
       <bundle>false</bundle>
     </dependency>
@@ -70,7 +70,7 @@
       <name>BeepBeep Palettes</name>
       <classname>ca.uqac.lif.cep.json.ParseJson</classname>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.8/beepbeep-palettes-0.8.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.8.1/beepbeep-palettes-0.8.1.jar</jar>
       </files>
       <bundle>false</bundle>
     </dependency>
